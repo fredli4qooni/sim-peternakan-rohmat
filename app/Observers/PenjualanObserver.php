@@ -39,13 +39,4 @@ class PenjualanObserver
         $this->getStok()->increment('total_stok', $penjualan->jumlah);
     }
 
-    public function restored(Penjualan $penjualan): void
-    {
-        //
-    }
-
-    public function forceDeleted(Penjualan $penjualan): void
-    {
-        //
-    }
 }

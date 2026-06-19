@@ -39,13 +39,4 @@ class ProduksiObserver
         $this->getStok()->decrement('total_stok', $produksi->jumlah_baik);
     }
 
-    public function restored(Produksi $produksi): void
-    {
-        //
-    }
-
-    public function forceDeleted(Produksi $produksi): void
-    {
-        //
-    }
 }
