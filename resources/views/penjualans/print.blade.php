@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nota Penjualan #{{ $penjualan->id }}</title>
     <style>
+        * { box-sizing: border-box; }
         body { font-family: Arial, sans-serif; margin: 0; padding: 20px; color: #333; }
-        .nota-container { max-w-md mx-auto; border: 1px dashed #ccc; padding: 20px; width: 400px; margin: 0 auto; }
+        .nota-container { border: 1px dashed #ccc; padding: 20px; width: 400px; max-width: 100%; margin: 0 auto; }
         .text-center { text-align: center; }
         .text-right { text-align: right; }
         .font-bold { font-weight: bold; }
@@ -18,8 +19,9 @@
         .divider { border-bottom: 2px dashed #ccc; margin: 15px 0; }
         .info-table td { border-bottom: none; padding: 3px 0; font-size: 14px; }
         @media print {
+            @page { margin: 10px; }
             body { padding: 0; }
-            .nota-container { border: none; width: 100%; max-width: 100%; }
+            .nota-container { border: none; width: 100%; max-width: 100%; padding: 10px; margin: 0; }
             .no-print { display: none; }
         }
     </style>
@@ -50,7 +52,7 @@
             </tr>
             <tr>
                 <td>Pelanggan</td>
-                <td>: {{ $penjualan->pelanggan ? $penjualan->pelanggan->nama : 'Umum/Eceran' }}</td>
+                <td>: {{ $penjualan->pelanggan_id ? $penjualan->pelanggan->nama . ' (Agen)' : ($penjualan->nama_pelanggan ?: 'Umum/Eceran') }}</td>
             </tr>
             <tr>
                 <td>Kasir</td>
@@ -64,7 +66,7 @@
             <thead>
                 <tr>
                     <th style="text-align: left;">Item</th>
-                    <th class="text-right">Qty</th>
+                    <th class="text-right">Qty (Kg)</th>
                     <th class="text-right">Harga</th>
                     <th class="text-right">Subtotal</th>
                 </tr>
@@ -72,7 +74,7 @@
             <tbody>
                 <tr>
                     <td>Telur Ayam</td>
-                    <td class="text-right">{{ number_format($penjualan->jumlah, 0, ',', '.') }}</td>
+                    <td class="text-right">{{ number_format($penjualan->jumlah, 2, ',', '.') }}</td>
                     <td class="text-right">{{ number_format($penjualan->harga_satuan, 0, ',', '.') }}</td>
                     <td class="text-right">{{ number_format($penjualan->total_harga, 0, ',', '.') }}</td>
                 </tr>

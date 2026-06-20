@@ -42,8 +42,8 @@
                             <thead>
                                 <tr class="bg-gray-100 text-gray-700">
                                     <th class="py-3 px-4 border-b">Tanggal</th>
-                                    <th class="py-3 px-4 border-b text-right">Jumlah Baik</th>
-                                    <th class="py-3 px-4 border-b text-right">Jumlah Rusak</th>
+                                    <th class="py-3 px-4 border-b text-right">Telur Baik (Kg)</th>
+                                    <th class="py-3 px-4 border-b text-right">Telur Rusak (Butir)</th>
                                     <th class="py-3 px-4 border-b">Keterangan</th>
                                     <th class="py-3 px-4 border-b">Dicatat Oleh</th>
                                     <th class="py-3 px-4 border-b text-center">Aksi</th>
@@ -53,8 +53,8 @@
                                 @foreach($produksis as $produksi)
                                 <tr class="hover:bg-gray-50 border-b">
                                     <td class="py-3 px-4">{{ \Carbon\Carbon::parse($produksi->tanggal)->format('d M Y') }}</td>
-                                    <td class="py-3 px-4 text-right font-bold text-green-600">{{ number_format($produksi->jumlah_baik, 0, ',', '.') }}</td>
-                                    <td class="py-3 px-4 text-right font-bold text-red-500">{{ number_format($produksi->jumlah_rusak, 0, ',', '.') }}</td>
+                                    <td class="py-3 px-4 text-right font-bold text-primary-600">{{ number_format($produksi->jumlah_baik, 2, ',', '.') }}</td>
+                                    <td class="py-3 px-4 text-right text-red-500">{{ number_format($produksi->jumlah_rusak, 0, ',', '.') }}</td>
                                     <td class="py-3 px-4">{{ $produksi->keterangan ?? '-' }}</td>
                                     <td class="py-3 px-4">{{ $produksi->user->name }}</td>
                                     <td class="py-3 px-4 flex space-x-2 justify-center items-center">

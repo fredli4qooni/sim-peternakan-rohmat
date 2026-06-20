@@ -27,7 +27,7 @@ class ProduksiController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'jumlah_baik' => 'required|integer|min:0',
+            'jumlah_baik' => 'required|numeric|min:0',
             'jumlah_rusak' => 'required|integer|min:0',
             'keterangan' => 'nullable|string',
         ]);
@@ -52,7 +52,7 @@ class ProduksiController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'jumlah_baik' => 'required|integer|min:0',
+            'jumlah_baik' => 'required|numeric|min:0',
             'jumlah_rusak' => 'required|integer|min:0',
             'keterangan' => 'nullable|string',
         ]);

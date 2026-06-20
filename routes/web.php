@@ -15,6 +15,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     $stok = \App\Models\Stok::first();
+    $stok_ayam = \App\Models\StokAyam::first();
     $penjualan_bulan_ini = \App\Models\Penjualan::whereMonth('tanggal', date('m'))->whereYear('tanggal', date('Y'))->sum('total_harga');
     $pengeluaran_bulan_ini = \App\Models\Pengeluaran::whereMonth('tanggal', date('m'))->whereYear('tanggal', date('Y'))->sum('nominal');
 
@@ -25,7 +26,7 @@ Route::get('/dashboard', function () {
         ->groupBy('tanggal')
         ->get();
 
-    return view('dashboard', compact('stok', 'penjualan_bulan_ini', 'pengeluaran_bulan_ini', 'grafik_penjualan'));
+    return view('dashboard', compact('stok', 'stok_ayam', 'penjualan_bulan_ini', 'pengeluaran_bulan_ini', 'grafik_penjualan'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -53,6 +54,7 @@ Route::middleware(['auth', 'role:pemilik,karyawan'])->group(function () {
     Route::resource('produksis', ProduksiController::class);
     Route::get('penjualans/{penjualan}/print', [PenjualanController::class, 'print'])->name('penjualans.print');
     Route::resource('penjualans', PenjualanController::class);
+    Route::resource('populasi_ayams', \App\Http\Controllers\PopulasiAyamController::class);
 });
 
 require __DIR__ . '/auth.php';

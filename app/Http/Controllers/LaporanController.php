@@ -15,17 +15,24 @@ class LaporanController extends Controller
         $bulan = $request->input('bulan', date('m'));
         $tahun = $request->input('tahun', date('Y'));
 
-        $total_penjualan = Penjualan::whereMonth('tanggal', $bulan)
+        $total_penjualan_telur = Penjualan::whereMonth('tanggal', $bulan)
             ->whereYear('tanggal', $tahun)
             ->sum('total_harga');
+
+        $total_penjualan_ayam = \App\Models\PopulasiAyam::where('jenis', 'terjual')
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->sum('total_harga');
+
+        $total_pendapatan = $total_penjualan_telur + $total_penjualan_ayam;
 
         $total_pengeluaran = Pengeluaran::whereMonth('tanggal', $bulan)
             ->whereYear('tanggal', $tahun)
             ->sum('nominal');
 
-        $laba_bersih = $total_penjualan - $total_pengeluaran;
+        $laba_bersih = $total_pendapatan - $total_pengeluaran;
 
-        return view('laporan.laba_rugi', compact('bulan', 'tahun', 'total_penjualan', 'total_pengeluaran', 'laba_bersih'));
+        return view('laporan.laba_rugi', compact('bulan', 'tahun', 'total_penjualan_telur', 'total_penjualan_ayam', 'total_pendapatan', 'total_pengeluaran', 'laba_bersih'));
     }
 
     public function produksi(Request $request)

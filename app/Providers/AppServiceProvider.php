@@ -21,5 +21,6 @@ class AppServiceProvider extends ServiceProvider
     {
         \App\Models\Produksi::observe(\App\Observers\ProduksiObserver::class);
         \App\Models\Penjualan::observe(\App\Observers\PenjualanObserver::class);
+        \App\Models\PopulasiAyam::observe(\App\Observers\PopulasiAyamObserver::class);
     }
 }

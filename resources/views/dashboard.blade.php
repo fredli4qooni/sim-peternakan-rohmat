@@ -13,13 +13,22 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-l-4 border-blue-500">
                     <div class="p-6">
                         <div class="text-gray-500 text-sm font-bold uppercase tracking-wide mb-1">Total Stok Telur Terkini</div>
                         <div class="text-3xl font-extrabold text-blue-600">
-                            {{ $stok ? number_format($stok->total_stok, 0, ',', '.') : 0 }} <span class="text-base font-normal text-gray-500">butir/kg</span>
+                            {{ $stok ? number_format($stok->total_stok, 2, ',', '.') : 0 }} <span class="text-base font-normal text-gray-500">Kg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-l-4 border-amber-500">
+                    <div class="p-6">
+                        <div class="text-gray-500 text-sm font-bold uppercase tracking-wide mb-1">Total Ayam Aktif</div>
+                        <div class="text-3xl font-extrabold text-amber-600">
+                            {{ $stok_ayam ? number_format($stok_ayam->total_aktif, 0, ',', '.') : 0 }} <span class="text-base font-normal text-gray-500">Ekor</span>
                         </div>
                     </div>
                 </div>
@@ -27,7 +36,7 @@
                 @if(auth()->user()->role === 'pemilik')
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-l-4 border-green-500">
                     <div class="p-6">
-                        <div class="text-gray-500 text-sm font-bold uppercase tracking-wide mb-1">Total Penjualan Bulan Ini</div>
+                        <div class="text-gray-500 text-sm font-bold uppercase tracking-wide mb-1">Penjualan Bulan Ini</div>
                         <div class="text-3xl font-extrabold text-green-600">
                             <span class="text-base font-normal text-gray-500">Rp</span> {{ number_format($penjualan_bulan_ini, 0, ',', '.') }}
                         </div>
@@ -36,7 +45,7 @@
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-l-4 border-red-500">
                     <div class="p-6">
-                        <div class="text-gray-500 text-sm font-bold uppercase tracking-wide mb-1">Total Pengeluaran Bulan Ini</div>
+                        <div class="text-gray-500 text-sm font-bold uppercase tracking-wide mb-1">Pengeluaran Bulan Ini</div>
                         <div class="text-3xl font-extrabold text-red-600">
                             <span class="text-base font-normal text-gray-500">Rp</span> {{ number_format($pengeluaran_bulan_ini, 0, ',', '.') }}
                         </div>
@@ -66,6 +75,12 @@
                         </a>
                         <a href="{{ route('produksis.create') }}" class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded shadow">
                             + Catat Produksi
+                        </a>
+                        @endif
+
+                        @if(in_array(auth()->user()->role, ['karyawan']))
+                        <a href="{{ route('populasi_ayams.create') }}" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded shadow">
+                            + Catat Populasi Ayam
                         </a>
                         @endif
 

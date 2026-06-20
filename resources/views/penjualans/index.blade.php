@@ -31,8 +31,8 @@
                                 <tr class="bg-gray-100 text-gray-700">
                                     <th class="py-3 px-4 border-b">Tanggal</th>
                                     <th class="py-3 px-4 border-b">Pelanggan</th>
-                                    <th class="py-3 px-4 border-b text-right">Jumlah (butir/kg)</th>
-                                    <th class="py-3 px-4 border-b text-right">Harga Satuan (Rp)</th>
+                                    <th class="py-3 px-4 border-b text-right">Jumlah (Kg)</th>
+                                    <th class="py-3 px-4 border-b text-right">Harga per Kg (Rp)</th>
                                     <th class="py-3 px-4 border-b text-right">Total (Rp)</th>
                                     <th class="py-3 px-4 border-b text-center">Aksi</th>
                                 </tr>
@@ -41,7 +41,13 @@
                                 @foreach($penjualans as $penjualan)
                                 <tr class="hover:bg-gray-50 border-b">
                                     <td class="py-3 px-4">{{ \Carbon\Carbon::parse($penjualan->tanggal)->format('d M Y') }}</td>
-                                    <td class="py-3 px-4">{{ $penjualan->pelanggan ? $penjualan->pelanggan->nama : 'Umum/Eceran' }}</td>
+                                    <td class="py-3 px-4">
+                                        @if($penjualan->pelanggan_id)
+                                            <span class="text-primary-600 font-semibold">{{ $penjualan->pelanggan->nama }}</span> <span class="text-xs text-gray-500">(Agen)</span>
+                                        @else
+                                            {{ $penjualan->nama_pelanggan ?: 'Umum/Eceran' }}
+                                        @endif
+                                    </td>
                                     <td class="py-3 px-4 text-right font-bold text-primary-600">{{ number_format($penjualan->jumlah, 0, ',', '.') }}</td>
                                     <td class="py-3 px-4 text-right">{{ number_format($penjualan->harga_satuan, 0, ',', '.') }}</td>
                                     <td class="py-3 px-4 text-right font-bold">{{ number_format($penjualan->total_harga, 0, ',', '.') }}</td>

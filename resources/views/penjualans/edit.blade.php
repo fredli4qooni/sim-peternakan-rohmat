@@ -32,10 +32,32 @@
                             <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal', $penjualan->tanggal) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                         </div>
 
+                        @php
+                            $jenis_default = old('jenis_pelanggan', $penjualan->pelanggan_id ? 'agen' : 'umum');
+                        @endphp
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="pelanggan_id">Pelanggan / Agen</label>
-                            <select name="pelanggan_id" id="pelanggan_id" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="">-- Pembeli Umum (Bukan Agen) --</option>
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Jenis Pembeli</label>
+                            <div class="flex items-center space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="jenis_pelanggan" value="umum" class="form-radio text-primary-500" {{ $jenis_default == 'umum' ? 'checked' : '' }} onchange="togglePelanggan(this.value)">
+                                    <span class="ml-2">Umum / Eceran</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="jenis_pelanggan" value="agen" class="form-radio text-primary-500" {{ $jenis_default == 'agen' ? 'checked' : '' }} onchange="togglePelanggan(this.value)">
+                                    <span class="ml-2">Pelanggan Terdaftar / Agen</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4" id="container_umum" style="display: {{ $jenis_default == 'umum' ? 'block' : 'none' }};">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="nama_pelanggan">Nama Pelanggan (Opsional)</label>
+                            <input type="text" name="nama_pelanggan" id="nama_pelanggan" value="{{ old('nama_pelanggan', $penjualan->nama_pelanggan) }}" placeholder="Tulis nama pelanggan..." class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-primary-500 focus:ring-primary-500">
+                        </div>
+
+                        <div class="mb-4" id="container_agen" style="display: {{ $jenis_default == 'agen' ? 'block' : 'none' }};">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="pelanggan_id">Pilih Pelanggan / Agen</label>
+                            <select name="pelanggan_id" id="pelanggan_id" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-primary-500 focus:ring-primary-500">
+                                <option value="">-- Pilih Pelanggan --</option>
                                 @foreach($pelanggans as $pelanggan)
                                     <option value="{{ $pelanggan->id }}" {{ old('pelanggan_id', $penjualan->pelanggan_id) == $pelanggan->id ? 'selected' : '' }}>
                                         {{ $pelanggan->nama }}
@@ -43,15 +65,14 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <div class="mb-4 flex space-x-4">
                             <div class="w-1/2">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="jumlah">Jumlah (butir/kg)</label>
-                                <input type="number" name="jumlah" id="jumlah" value="{{ old('jumlah', $penjualan->jumlah) }}" min="1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="jumlah">Jumlah (Kg)</label>
+                                <input type="number" step="0.01" name="jumlah" id="jumlah" value="{{ old('jumlah', $penjualan->jumlah) }}" min="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-primary-500 focus:ring-primary-500" required>
                             </div>
                             <div class="w-1/2">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="harga_satuan">Harga Satuan (Rp)</label>
-                                <input type="number" name="harga_satuan" id="harga_satuan" value="{{ old('harga_satuan', $penjualan->harga_satuan) }}" min="0" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="harga_satuan">Harga per Kg (Rp)</label>
+                                <input type="number" name="harga_satuan" id="harga_satuan" value="{{ old('harga_satuan', $penjualan->harga_satuan) }}" min="0" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-primary-500 focus:ring-primary-500" required>
                             </div>
                         </div>
 
@@ -68,4 +89,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePelanggan(jenis) {
+            if (jenis === 'agen') {
+                document.getElementById('container_agen').style.display = 'block';
+                document.getElementById('container_umum').style.display = 'none';
+            } else {
+                document.getElementById('container_agen').style.display = 'none';
+                document.getElementById('container_umum').style.display = 'block';
+            }
+        }
+    </script>
 </x-app-layout>

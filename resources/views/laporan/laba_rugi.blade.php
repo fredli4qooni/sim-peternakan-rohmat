@@ -48,9 +48,21 @@
                     <table class="w-full text-left text-lg mb-8">
                         <tbody>
                             <tr>
-                                <td class="py-3 font-semibold text-gray-700">Total Pendapatan (Penjualan)</td>
+                                <td class="py-3 font-semibold text-gray-700">Pendapatan Penjualan Telur</td>
                                 <td class="py-3 text-right font-bold text-green-600">
-                                    Rp {{ number_format($total_penjualan, 0, ',', '.') }}
+                                    Rp {{ number_format($total_penjualan_telur, 0, ',', '.') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 font-semibold text-gray-700">Pendapatan Penjualan Ayam (Afkir)</td>
+                                <td class="py-3 text-right font-bold text-green-600">
+                                    Rp {{ number_format($total_penjualan_ayam, 0, ',', '.') }}
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-50 border-t border-b border-gray-200">
+                                <td class="py-3 px-2 font-bold text-gray-800">Total Seluruh Pendapatan</td>
+                                <td class="py-3 px-2 text-right font-extrabold text-green-700">
+                                    Rp {{ number_format($total_pendapatan, 0, ',', '.') }}
                                 </td>
                             </tr>
                             <tr class="border-b-2 border-gray-300">

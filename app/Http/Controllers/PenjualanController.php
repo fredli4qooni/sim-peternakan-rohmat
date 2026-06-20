@@ -26,9 +26,11 @@ class PenjualanController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'pelanggan_id' => 'nullable|exists:pelanggans,id',
-            'jumlah' => 'required|integer|min:1',
-            'harga_satuan' => 'required|integer|min:0',
+            'jenis_pelanggan' => 'required|in:agen,umum',
+            'pelanggan_id' => 'nullable|required_if:jenis_pelanggan,agen|exists:pelanggans,id',
+            'nama_pelanggan' => 'nullable|string|max:255',
+            'jumlah' => 'required|numeric|min:0.01',
+            'harga_satuan' => 'required|numeric|min:0',
         ]);
 
         $stok = Stok::firstOrCreate(['id' => 1], ['total_stok' => 0]);
@@ -41,7 +43,8 @@ class PenjualanController extends Controller
 
         $penjualan = Penjualan::create([
             'tanggal' => $request->tanggal,
-            'pelanggan_id' => $request->pelanggan_id,
+            'pelanggan_id' => $request->jenis_pelanggan == 'agen' ? $request->pelanggan_id : null,
+            'nama_pelanggan' => $request->jenis_pelanggan == 'umum' ? $request->nama_pelanggan : null,
             'jumlah' => $request->jumlah,
             'harga_satuan' => $request->harga_satuan,
             'total_harga' => $request->jumlah * $request->harga_satuan,
@@ -67,9 +70,11 @@ class PenjualanController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'pelanggan_id' => 'nullable|exists:pelanggans,id',
-            'jumlah' => 'required|integer|min:1',
-            'harga_satuan' => 'required|integer|min:0',
+            'jenis_pelanggan' => 'required|in:agen,umum',
+            'pelanggan_id' => 'nullable|required_if:jenis_pelanggan,agen|exists:pelanggans,id',
+            'nama_pelanggan' => 'nullable|string|max:255',
+            'jumlah' => 'required|numeric|min:0.01',
+            'harga_satuan' => 'required|numeric|min:0',
         ]);
 
         $stok = Stok::firstOrCreate(['id' => 1], ['total_stok' => 0]);
@@ -84,7 +89,8 @@ class PenjualanController extends Controller
 
         $penjualan->update([
             'tanggal' => $request->tanggal,
-            'pelanggan_id' => $request->pelanggan_id,
+            'pelanggan_id' => $request->jenis_pelanggan == 'agen' ? $request->pelanggan_id : null,
+            'nama_pelanggan' => $request->jenis_pelanggan == 'umum' ? $request->nama_pelanggan : null,
             'jumlah' => $request->jumlah,
             'harga_satuan' => $request->harga_satuan,
             'total_harga' => $request->jumlah * $request->harga_satuan,
