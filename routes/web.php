@@ -23,7 +23,8 @@ Route::get('/dashboard', function () {
     $grafik_penjualan = \App\Models\Penjualan::selectRaw('DAY(tanggal) as tanggal, SUM(total_harga) as total')
         ->whereMonth('tanggal', date('m'))
         ->whereYear('tanggal', date('Y'))
-        ->groupBy('tanggal')
+        ->groupByRaw('DAY(tanggal)')
+        ->orderByRaw('DAY(tanggal) ASC')
         ->get();
 
     return view('dashboard', compact('stok', 'stok_ayam', 'penjualan_bulan_ini', 'pengeluaran_bulan_ini', 'grafik_penjualan'));
