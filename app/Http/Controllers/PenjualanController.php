@@ -12,8 +12,12 @@ class PenjualanController extends Controller
 {
     public function index()
     {
-        $penjualans = Penjualan::with(['user', 'pelanggan'])->latest()->paginate(10);
-        return view('penjualans.index', compact('penjualans'));
+        $penjualans = Penjualan::with(['user', 'pelanggan'])->orderBy('tanggal', 'desc')->latest()->paginate(10);
+        
+        $total_history_penjualan = Penjualan::sum('jumlah');
+        $total_pendapatan = Penjualan::sum('total_harga');
+        
+        return view('penjualans.index', compact('penjualans', 'total_history_penjualan', 'total_pendapatan'));
     }
 
     public function create()
@@ -24,6 +28,13 @@ class PenjualanController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->has('jumlah')) {
+            $request->merge(['jumlah' => str_replace(',', '.', $request->jumlah)]);
+        }
+        if ($request->has('harga_satuan')) {
+            $request->merge(['harga_satuan' => str_replace(',', '.', $request->harga_satuan)]);
+        }
+
         $request->validate([
             'tanggal' => 'required|date',
             'jenis_pelanggan' => 'required|in:agen,umum',
@@ -33,11 +44,22 @@ class PenjualanController extends Controller
             'harga_satuan' => 'required|numeric|min:0',
         ]);
 
+        $jumlah_input = $request->jumlah;
+        $harga_input = $request->harga_satuan;
+
+        if ($request->jenis_pelanggan === 'agen') {
+            $jumlah_kg = $jumlah_input * 15;
+            $harga_per_kg = $harga_input / 15;
+        } else {
+            $jumlah_kg = $jumlah_input;
+            $harga_per_kg = $harga_input;
+        }
+
         $stok = Stok::firstOrCreate(['id' => 1], ['total_stok' => 0]);
         
-        if ($stok->total_stok < $request->jumlah) {
+        if ($stok->total_stok < $jumlah_kg) {
             return back()->withInput()->withErrors([
-                'jumlah' => 'Stok tidak mencukupi! Stok saat ini: ' . $stok->total_stok
+                'jumlah' => 'Stok tidak mencukupi! Stok saat ini: ' . $stok->total_stok . ' Kg'
             ]);
         }
 
@@ -45,9 +67,9 @@ class PenjualanController extends Controller
             'tanggal' => $request->tanggal,
             'pelanggan_id' => $request->jenis_pelanggan == 'agen' ? $request->pelanggan_id : null,
             'nama_pelanggan' => $request->jenis_pelanggan == 'umum' ? $request->nama_pelanggan : null,
-            'jumlah' => $request->jumlah,
-            'harga_satuan' => $request->harga_satuan,
-            'total_harga' => $request->jumlah * $request->harga_satuan,
+            'jumlah' => $jumlah_kg,
+            'harga_satuan' => $harga_per_kg,
+            'total_harga' => $jumlah_kg * $harga_per_kg,
             'user_id' => Auth::id(),
         ]);
 
@@ -68,6 +90,13 @@ class PenjualanController extends Controller
 
     public function update(Request $request, Penjualan $penjualan)
     {
+        if ($request->has('jumlah')) {
+            $request->merge(['jumlah' => str_replace(',', '.', $request->jumlah)]);
+        }
+        if ($request->has('harga_satuan')) {
+            $request->merge(['harga_satuan' => str_replace(',', '.', $request->harga_satuan)]);
+        }
+
         $request->validate([
             'tanggal' => 'required|date',
             'jenis_pelanggan' => 'required|in:agen,umum',
@@ -77,13 +106,24 @@ class PenjualanController extends Controller
             'harga_satuan' => 'required|numeric|min:0',
         ]);
 
+        $jumlah_input = $request->jumlah;
+        $harga_input = $request->harga_satuan;
+
+        if ($request->jenis_pelanggan === 'agen') {
+            $jumlah_kg = $jumlah_input * 15;
+            $harga_per_kg = $harga_input / 15;
+        } else {
+            $jumlah_kg = $jumlah_input;
+            $harga_per_kg = $harga_input;
+        }
+
         $stok = Stok::firstOrCreate(['id' => 1], ['total_stok' => 0]);
         
-        $selisih = $request->jumlah - $penjualan->jumlah;
+        $selisih = $jumlah_kg - $penjualan->jumlah;
         
         if ($selisih > 0 && $stok->total_stok < $selisih) {
             return back()->withInput()->withErrors([
-                'jumlah' => 'Stok tidak mencukupi untuk tambahan ini! Stok tersedia: ' . $stok->total_stok
+                'jumlah' => 'Stok tidak mencukupi untuk tambahan ini! Stok tersedia: ' . $stok->total_stok . ' Kg'
             ]);
         }
 
@@ -91,9 +131,9 @@ class PenjualanController extends Controller
             'tanggal' => $request->tanggal,
             'pelanggan_id' => $request->jenis_pelanggan == 'agen' ? $request->pelanggan_id : null,
             'nama_pelanggan' => $request->jenis_pelanggan == 'umum' ? $request->nama_pelanggan : null,
-            'jumlah' => $request->jumlah,
-            'harga_satuan' => $request->harga_satuan,
-            'total_harga' => $request->jumlah * $request->harga_satuan,
+            'jumlah' => $jumlah_kg,
+            'harga_satuan' => $harga_per_kg,
+            'total_harga' => $jumlah_kg * $harga_per_kg,
         ]);
 
         return redirect()->route('penjualans.index')

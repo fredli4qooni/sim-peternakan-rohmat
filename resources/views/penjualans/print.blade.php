@@ -66,7 +66,7 @@
             <thead>
                 <tr>
                     <th style="text-align: left;">Item</th>
-                    <th class="text-right">Qty (Kg)</th>
+                    <th class="text-right">Qty {{ $penjualan->pelanggan_id ? '(Kotak)' : '(Kg)' }}</th>
                     <th class="text-right">Harga</th>
                     <th class="text-right">Subtotal</th>
                 </tr>
@@ -74,8 +74,8 @@
             <tbody>
                 <tr>
                     <td>Telur Ayam</td>
-                    <td class="text-right">{{ number_format($penjualan->jumlah, 2, ',', '.') }}</td>
-                    <td class="text-right">{{ number_format($penjualan->harga_satuan, 0, ',', '.') }}</td>
+                    <td class="text-right">{{ $penjualan->pelanggan_id ? number_format($penjualan->jumlah / 15, 0, ',', '.') : number_format($penjualan->jumlah, 2, ',', '.') }}</td>
+                    <td class="text-right">{{ $penjualan->pelanggan_id ? number_format($penjualan->harga_satuan * 15, 0, ',', '.') : number_format($penjualan->harga_satuan, 0, ',', '.') }}</td>
                     <td class="text-right">{{ number_format($penjualan->total_harga, 0, ',', '.') }}</td>
                 </tr>
                 <tr class="total-row">

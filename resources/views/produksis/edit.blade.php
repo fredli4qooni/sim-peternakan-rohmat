@@ -33,7 +33,7 @@
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="jumlah_baik">Jumlah Telur Baik (Kg)</label>
-                            <input type="number" step="0.01" name="jumlah_baik" id="jumlah_baik" value="{{ old('jumlah_baik', $produksi->jumlah_baik) }}" min="0" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-primary-500 focus:ring-primary-500" required>
+                            <input type="text" inputmode="decimal" name="jumlah_baik" id="jumlah_baik" value="{{ old('jumlah_baik', $produksi->jumlah_baik) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-primary-500 focus:ring-primary-500" required>
                             @error('jumlah_baik') <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div class="mb-4">

@@ -48,8 +48,13 @@
                                             {{ $penjualan->nama_pelanggan ?: 'Umum/Eceran' }}
                                         @endif
                                     </td>
-                                    <td class="py-3 px-4 text-right font-bold text-primary-600">{{ number_format($penjualan->jumlah, 0, ',', '.') }}</td>
-                                    <td class="py-3 px-4 text-right">{{ number_format($penjualan->harga_satuan, 0, ',', '.') }}</td>
+                                    @if($penjualan->pelanggan_id)
+                                        <td class="py-3 px-4 text-right font-bold text-primary-600">{{ number_format($penjualan->jumlah / 15, 0, ',', '.') }} Kotak</td>
+                                        <td class="py-3 px-4 text-right">{{ number_format($penjualan->harga_satuan * 15, 0, ',', '.') }}</td>
+                                    @else
+                                        <td class="py-3 px-4 text-right font-bold text-primary-600">{{ number_format($penjualan->jumlah, 2, ',', '.') }} Kg</td>
+                                        <td class="py-3 px-4 text-right">{{ number_format($penjualan->harga_satuan, 0, ',', '.') }}</td>
+                                    @endif
                                     <td class="py-3 px-4 text-right font-bold">{{ number_format($penjualan->total_harga, 0, ',', '.') }}</td>
                                     <td class="py-3 px-4 flex space-x-2 justify-center items-center">
                                         <a href="{{ route('penjualans.print', $penjualan->id) }}" target="_blank" class="text-green-500 hover:text-green-700 font-semibold border border-green-500 px-2 rounded">Cetak Nota</a>
@@ -70,6 +75,22 @@
                                 </tr>
                                 @endif
                             </tbody>
+                            @if($penjualans->isNotEmpty())
+                            <tfoot>
+                                <tr class="bg-gray-100 border-t-2 border-gray-300">
+                                    <td colspan="2" class="py-3 px-4 font-bold text-right text-gray-800 uppercase tracking-wider text-sm">Total Keseluruhan:</td>
+                                    <td class="py-3 px-4 text-right font-bold text-primary-600">
+                                        {{ number_format($total_history_penjualan, 2, ',', '.') }} Kg
+                                        <div class="text-xs text-gray-500 font-normal mt-1">(~{{ number_format($total_history_penjualan / 15, 1, ',', '.') }} Kotak)</div>
+                                    </td>
+                                    <td class="py-3 px-4 text-center font-bold text-gray-800">-</td>
+                                    <td class="py-3 px-4 text-right font-bold text-gray-800">
+                                        Rp {{ number_format($total_pendapatan, 0, ',', '.') }}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                            @endif
                         </table>
                     </div>
                     <div class="mt-4">

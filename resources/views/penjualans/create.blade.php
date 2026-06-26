@@ -56,12 +56,12 @@
                         </div>
                         <div class="mb-4 flex space-x-4">
                             <div class="w-1/2">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="jumlah">Jumlah (Kg)</label>
-                                <input type="number" step="0.01" name="jumlah" id="jumlah" value="{{ old('jumlah') }}" min="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-primary-500 focus:ring-primary-500" required>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" id="label_jumlah" for="jumlah">Jumlah (Kg)</label>
+                                <input type="number" step="0.01" name="jumlah" id="jumlah" value="{{ old('jumlah') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-primary-500 focus:ring-primary-500" required>
                             </div>
                             <div class="w-1/2">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="harga_satuan">Harga per Kg (Rp)</label>
-                                <input type="number" name="harga_satuan" id="harga_satuan" value="{{ old('harga_satuan') }}" min="0" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-primary-500 focus:ring-primary-500" required>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" id="label_harga" for="harga_satuan">Harga per Kg (Rp)</label>
+                                <input type="number" name="harga_satuan" id="harga_satuan" value="{{ old('harga_satuan') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-primary-500 focus:ring-primary-500" required>
                             </div>
                         </div>
                         <div class="flex items-center justify-end mt-6">
@@ -83,10 +83,21 @@
             if (jenis === 'agen') {
                 document.getElementById('container_agen').style.display = 'block';
                 document.getElementById('container_umum').style.display = 'none';
+                document.getElementById('label_jumlah').innerText = 'Jumlah (Kotak) - 15 Kg/Kotak';
+                document.getElementById('label_harga').innerText = 'Harga per Kotak (Rp)';
             } else {
                 document.getElementById('container_agen').style.display = 'none';
                 document.getElementById('container_umum').style.display = 'block';
+                document.getElementById('label_jumlah').innerText = 'Jumlah (Kg)';
+                document.getElementById('label_harga').innerText = 'Harga per Kg (Rp)';
             }
         }
+
+        window.onload = function() {
+            const checkedRadio = document.querySelector('input[name="jenis_pelanggan"]:checked');
+            if(checkedRadio) {
+                togglePelanggan(checkedRadio.value);
+            }
+        };
     </script>
 </x-app-layout>

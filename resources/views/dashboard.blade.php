@@ -21,6 +21,9 @@
                         <div class="text-3xl font-extrabold text-blue-600">
                             {{ $stok ? number_format($stok->total_stok, 2, ',', '.') : 0 }} <span class="text-base font-normal text-gray-500">Kg</span>
                         </div>
+                        <div class="text-sm font-semibold text-gray-500 mt-1">
+                            &approx; {{ $stok ? number_format($stok->total_stok / 15, 1, ',', '.') : 0 }} Kotak
+                        </div>
                     </div>
                 </div>
 

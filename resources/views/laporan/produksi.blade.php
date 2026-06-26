@@ -52,7 +52,7 @@
                                     <th class="py-3 px-4 font-semibold text-gray-700 w-16">No</th>
                                     <th class="py-3 px-4 font-semibold text-gray-700">Tanggal</th>
                                     <th class="py-3 px-4 font-semibold text-gray-700 text-right">Telur Baik</th>
-                                    <th class="py-3 px-4 font-semibold text-gray-700 text-right">Telur Rusak</th>
+                                    <th class="py-3 px-4 font-semibold text-gray-700 text-right">Telur Rusak (Butir)</th>
                                     <th class="py-3 px-4 font-semibold text-gray-700">Keterangan</th>
                                 </tr>
                             </thead>
@@ -79,7 +79,7 @@
                                 <tr class="bg-amber-50 border-t-2 border-amber-300">
                                     <td colspan="2" class="py-4 px-4 font-bold text-gray-800 text-right uppercase tracking-wider">Total Telur Baik:</td>
                                     <td class="py-4 px-4 font-extrabold text-amber-600 text-right text-xl">
-                                        {{ number_format($total_produksi, 0, ',', '.') }}
+                                        {{ number_format($total_produksi, 2, ',', '.') }} Kg
                                     </td>
                                     <td colspan="2"></td>
                                 </tr>

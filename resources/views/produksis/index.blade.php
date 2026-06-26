@@ -7,14 +7,29 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6 border-l-4 border-primary-500">
-                <div class="p-6 text-gray-900 flex justify-between items-center">
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-700">Total Stok Telur Terkini</h3>
-                        <p class="text-sm text-gray-500">Stok ini akan otomatis bertambah dari produksi dan berkurang saat penjualan.</p>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6 border border-primary-200">
+                <div class="p-6 text-gray-900 bg-blue-50 flex flex-col md:flex-row justify-between items-center rounded-lg">
+                    <div class="mb-4 md:mb-0">
+                        <h3 class="text-xl font-bold text-gray-800">Total Stok Telur Terkini</h3>
+                        <p class="text-sm text-gray-600 mt-1">Stok dihitung otomatis dari selisih produksi dan penjualan.</p>
+                        
+                        <div class="mt-4 bg-white p-3 rounded shadow-sm inline-block border border-gray-100">
+                            <span class="text-xs font-semibold text-gray-500 uppercase">Rumus Perhitungan:</span>
+                            <div class="flex items-center space-x-2 mt-1 text-sm font-medium">
+                                <span class="text-green-600" title="Total Seluruh Produksi">{{ number_format($total_history_produksi, 2, ',', '.') }} Kg</span>
+                                <span class="text-gray-400">-</span>
+                                <span class="text-red-500" title="Total Seluruh Penjualan">{{ number_format($total_history_penjualan, 2, ',', '.') }} Kg</span>
+                                <span class="text-gray-400">=</span>
+                                <span class="text-primary-600 font-bold">{{ number_format($stok->total_stok, 2, ',', '.') }} Kg</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-3xl font-extrabold text-primary-600">
-                        {{ $stok ? number_format($stok->total_stok, 0, ',', '.') : 0 }} <span class="text-base text-gray-600 font-normal">butir/kg</span>
+                    <div class="text-right bg-white p-4 rounded-lg shadow-sm border border-gray-100 min-w-[200px]">
+                        <div class="text-sm text-gray-500 font-bold uppercase tracking-wide mb-1">Stok Saat Ini</div>
+                        <div class="text-3xl font-extrabold text-primary-600 leading-none">
+                            {{ $stok ? number_format($stok->total_stok, 2, ',', '.') : 0 }} <span class="text-base text-gray-500 font-normal">Kg</span>
+                        </div>
+                        <div class="text-sm font-semibold text-gray-400 mt-2">&approx; {{ $stok ? number_format($stok->total_stok / 15, 1, ',', '.') : 0 }} Kotak</div>
                     </div>
                 </div>
             </div>
@@ -53,7 +68,10 @@
                                 @foreach($produksis as $produksi)
                                 <tr class="hover:bg-gray-50 border-b">
                                     <td class="py-3 px-4">{{ \Carbon\Carbon::parse($produksi->tanggal)->format('d M Y') }}</td>
-                                    <td class="py-3 px-4 text-right font-bold text-primary-600">{{ number_format($produksi->jumlah_baik, 2, ',', '.') }}</td>
+                                    <td class="py-3 px-4 text-right">
+                                        <span class="font-bold text-primary-600">{{ number_format($produksi->jumlah_baik, 2, ',', '.') }}</span><br>
+                                        <span class="text-xs text-gray-500">(~{{ number_format($produksi->jumlah_baik / 15, 1, ',', '.') }} Kotak)</span>
+                                    </td>
                                     <td class="py-3 px-4 text-right text-red-500">{{ number_format($produksi->jumlah_rusak, 0, ',', '.') }}</td>
                                     <td class="py-3 px-4">{{ $produksi->keterangan ?? '-' }}</td>
                                     <td class="py-3 px-4">{{ $produksi->user->name }}</td>
@@ -79,6 +97,21 @@
                                 </tr>
                                 @endif
                             </tbody>
+                            @if($produksis->isNotEmpty())
+                            <tfoot>
+                                <tr class="bg-gray-100 border-t-2 border-gray-300">
+                                    <td class="py-3 px-4 font-bold text-right text-gray-800 uppercase tracking-wider text-sm">Total Keseluruhan:</td>
+                                    <td class="py-3 px-4 text-right font-bold text-primary-600">
+                                        {{ number_format($total_history_produksi, 2, ',', '.') }} Kg
+                                        <div class="text-xs text-gray-500 font-normal mt-1">(~{{ number_format($total_history_produksi / 15, 1, ',', '.') }} Kotak)</div>
+                                    </td>
+                                    <td class="py-3 px-4 text-right font-bold text-red-500">
+                                        {{ number_format($total_history_rusak, 0, ',', '.') }} Butir
+                                    </td>
+                                    <td colspan="3"></td>
+                                </tr>
+                            </tfoot>
+                            @endif
                         </table>
                     </div>
                     <div class="mt-4">

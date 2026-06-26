@@ -11,11 +11,15 @@ class ProduksiController extends Controller
 {
     public function index()
     {
-        $produksis = Produksi::with('user')->latest()->paginate(10);
+        $produksis = Produksi::with('user')->orderBy('tanggal', 'desc')->latest()->paginate(10);
         
         $stok = Stok::firstOrCreate(['id' => 1], ['total_stok' => 0]);
         
-        return view('produksis.index', compact('produksis', 'stok'));
+        $total_history_produksi = Produksi::sum('jumlah_baik');
+        $total_history_penjualan = \App\Models\Penjualan::sum('jumlah');
+        $total_history_rusak = Produksi::sum('jumlah_rusak');
+        
+        return view('produksis.index', compact('produksis', 'stok', 'total_history_produksi', 'total_history_penjualan', 'total_history_rusak'));
     }
 
     public function create()
@@ -25,6 +29,10 @@ class ProduksiController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->has('jumlah_baik')) {
+            $request->merge(['jumlah_baik' => str_replace(',', '.', $request->jumlah_baik)]);
+        }
+
         $request->validate([
             'tanggal' => 'required|date',
             'jumlah_baik' => 'required|numeric|min:0',
@@ -50,6 +58,10 @@ class ProduksiController extends Controller
 
     public function update(Request $request, Produksi $produksi)
     {
+        if ($request->has('jumlah_baik')) {
+            $request->merge(['jumlah_baik' => str_replace(',', '.', $request->jumlah_baik)]);
+        }
+
         $request->validate([
             'tanggal' => 'required|date',
             'jumlah_baik' => 'required|numeric|min:0',
