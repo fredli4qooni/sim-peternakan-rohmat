@@ -31,7 +31,7 @@
                                 <tr class="bg-gray-100 text-gray-700">
                                     <th class="py-3 px-4 border-b">Tanggal</th>
                                     <th class="py-3 px-4 border-b">Pelanggan</th>
-                                    <th class="py-3 px-4 border-b text-right">Jumlah (Kg)</th>
+                                    <th class="py-3 px-4 border-b text-right">Jumlah (kg/kotak)</th>
                                     <th class="py-3 px-4 border-b text-right">Harga per Kg (Rp)</th>
                                     <th class="py-3 px-4 border-b text-right">Total (Rp)</th>
                                     <th class="py-3 px-4 border-b text-center">Aksi</th>
@@ -50,7 +50,7 @@
                                     </td>
                                     @if($penjualan->pelanggan_id)
                                         <td class="py-3 px-4 text-right font-bold text-primary-600">{{ number_format($penjualan->jumlah / 15, 0, ',', '.') }} Kotak</td>
-                                        <td class="py-3 px-4 text-right">{{ number_format($penjualan->harga_satuan * 15, 0, ',', '.') }}</td>
+                                        <td class="py-3 px-4 text-right">{{ number_format($penjualan->harga_satuan, 0, ',', '.') }}</td>
                                     @else
                                         <td class="py-3 px-4 text-right font-bold text-primary-600">{{ number_format($penjualan->jumlah, 2, ',', '.') }} Kg</td>
                                         <td class="py-3 px-4 text-right">{{ number_format($penjualan->harga_satuan, 0, ',', '.') }}</td>

@@ -66,7 +66,7 @@
             <thead>
                 <tr>
                     <th style="text-align: left;">Item</th>
-                    <th class="text-right">Qty {{ $penjualan->pelanggan_id ? '(Kotak)' : '(Kg)' }}</th>
+                    <th class="text-right">Qty {{ $penjualan->pelanggan_id ? '(Kotak)' : '(kg/kotak)' }}</th>
                     <th class="text-right">Harga</th>
                     <th class="text-right">Subtotal</th>
                 </tr>

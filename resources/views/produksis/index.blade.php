@@ -57,7 +57,7 @@
                             <thead>
                                 <tr class="bg-gray-100 text-gray-700">
                                     <th class="py-3 px-4 border-b">Tanggal</th>
-                                    <th class="py-3 px-4 border-b text-right">Telur Baik (Kg)</th>
+                                    <th class="py-3 px-4 border-b text-right">Telur Baik (kg/kotak)</th>
                                     <th class="py-3 px-4 border-b text-right">Telur Rusak (Butir)</th>
                                     <th class="py-3 px-4 border-b">Keterangan</th>
                                     <th class="py-3 px-4 border-b">Dicatat Oleh</th>

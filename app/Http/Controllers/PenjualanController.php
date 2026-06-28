@@ -49,7 +49,7 @@ class PenjualanController extends Controller
 
         if ($request->jenis_pelanggan === 'agen') {
             $jumlah_kg = $jumlah_input * 15;
-            $harga_per_kg = $harga_input / 15;
+            $harga_per_kg = $harga_input;
         } else {
             $jumlah_kg = $jumlah_input;
             $harga_per_kg = $harga_input;
@@ -111,7 +111,7 @@ class PenjualanController extends Controller
 
         if ($request->jenis_pelanggan === 'agen') {
             $jumlah_kg = $jumlah_input * 15;
-            $harga_per_kg = $harga_input / 15;
+            $harga_per_kg = $harga_input;
         } else {
             $jumlah_kg = $jumlah_input;
             $harga_per_kg = $harga_input;

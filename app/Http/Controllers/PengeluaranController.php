@@ -10,7 +10,7 @@ class PengeluaranController extends Controller
 {
     public function index()
     {
-        $pengeluarans = Pengeluaran::with('user')->latest()->paginate(10);
+        $pengeluarans = Pengeluaran::with('user')->orderBy('tanggal', 'desc')->latest()->paginate(10);
         return view('pengeluarans.index', compact('pengeluarans'));
     }
 
