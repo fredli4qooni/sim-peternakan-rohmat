@@ -74,8 +74,13 @@
             </div>
         </header>
 
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 print:overflow-visible print:bg-white print:p-0 pb-16 lg:pb-0">
-            {{ $slot }}
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 print:overflow-visible print:bg-white print:p-0 pb-16 lg:pb-0 flex flex-col">
+            <div class="flex-1">
+                {{ $slot }}
+            </div>
+            <footer class="py-6 text-center text-sm text-gray-500 print:hidden w-full">
+                &copy; {{ date('Y') }} <strong>Peternakan Rohmat</strong>. Hak Cipta Dilindungi.
+            </footer>
         </main>
 
         <nav class="lg:hidden fixed bottom-0 w-full bg-white border-t border-gray-200 flex justify-between shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-30 print:hidden pb-safe">
