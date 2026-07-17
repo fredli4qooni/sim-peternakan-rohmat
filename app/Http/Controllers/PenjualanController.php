@@ -39,7 +39,7 @@ class PenjualanController extends Controller
             'tanggal' => 'required|date',
             'jenis_pelanggan' => 'required|in:agen,umum',
             'pelanggan_id' => 'nullable|required_if:jenis_pelanggan,agen|exists:pelanggans,id',
-            'nama_pelanggan' => 'nullable|string|max:255',
+            'nama_pelanggan' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
             'jumlah' => 'required|numeric|min:0.01',
             'harga_satuan' => 'required|numeric|min:0',
         ]);
@@ -101,7 +101,7 @@ class PenjualanController extends Controller
             'tanggal' => 'required|date',
             'jenis_pelanggan' => 'required|in:agen,umum',
             'pelanggan_id' => 'nullable|required_if:jenis_pelanggan,agen|exists:pelanggans,id',
-            'nama_pelanggan' => 'nullable|string|max:255',
+            'nama_pelanggan' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
             'jumlah' => 'required|numeric|min:0.01',
             'harga_satuan' => 'required|numeric|min:0',
         ]);

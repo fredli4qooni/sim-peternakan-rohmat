@@ -60,9 +60,44 @@
             @if(auth()->user()->role === 'pemilik')
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6">
-                    <h3 class="text-lg font-bold text-gray-700 mb-4">Grafik Penjualan Bulan Ini</h3>
-                    <div id="grafik-container" data-grafik="{{ json_encode($grafik_penjualan) }}">
-                        <canvas id="grafikPenjualan" height="100"></canvas>
+                    <form action="{{ route('dashboard') }}" method="GET" class="flex flex-wrap space-x-4 items-end mb-6">
+                        <div>
+                            <label for="bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
+                            <select name="bulan" id="bulan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                @for($i=1; $i<=12; $i++)
+                                    <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}" {{ $bulan == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                        {{ \Carbon\Carbon::create()->month($i)->translatedFormat('F') }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div>
+                            <label for="tahun" class="block text-sm font-medium text-gray-700">Tahun</label>
+                            <select name="tahun" id="tahun" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                @for($i=date('Y'); $i>=date('Y')-5; $i--)
+                                    <option value="{{ $i }}" {{ $tahun == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow">
+                                Filter
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-700">Grafik Keuangan</h3>
+                        <div>
+                            <select id="chartTypeToggle" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm">
+                                <option value="penjualan">Lihat Grafik Penjualan</option>
+                                <option value="pengeluaran">Lihat Grafik Pengeluaran</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="grafik-container" data-penjualan="{{ json_encode($grafik_penjualan) }}" data-pengeluaran="{{ json_encode($grafik_pengeluaran) }}">
+                        <canvas id="grafikCanvas" height="100"></canvas>
                     </div>
                 </div>
             </div>
@@ -106,36 +141,60 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('grafikPenjualan').getContext('2d');
-
+            const ctx = document.getElementById('grafikCanvas').getContext('2d');
             const container = document.getElementById('grafik-container');
-            const rawData = container.getAttribute('data-grafik');
-            const dataGrafik = JSON.parse(rawData);
+            const dataPenjualan = JSON.parse(container.getAttribute('data-penjualan'));
+            const dataPengeluaran = JSON.parse(container.getAttribute('data-pengeluaran'));
+            const chartToggle = document.getElementById('chartTypeToggle');
+            
+            let currentChart = null;
 
-            const labels = dataGrafik.map(item => 'Tgl ' + item.tanggal);
-            const dataTotals = dataGrafik.map(item => item.total);
+            function renderChart(type) {
+                if (currentChart) {
+                    currentChart.destroy();
+                }
 
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Total Pendapatan (Rp)',
-                        data: dataTotals,
-                        borderColor: '#10B981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                        borderWidth: 2,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                const isPenjualan = type === 'penjualan';
+                const sourceData = isPenjualan ? dataPenjualan : dataPengeluaran;
+                
+                const labels = sourceData.map(item => 'Tgl ' + item.tanggal);
+                const dataTotals = sourceData.map(item => item.total);
+                
+                const labelText = isPenjualan ? 'Total Pendapatan (Rp)' : 'Total Pengeluaran (Rp)';
+                const borderColor = isPenjualan ? '#10B981' : '#EF4444';
+                const bgColor = isPenjualan ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)';
+
+                currentChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: labelText,
+                            data: dataTotals,
+                            borderColor: borderColor,
+                            backgroundColor: bgColor,
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
+                });
+            }
+
+            // Initial render
+            renderChart(chartToggle.value);
+
+            // Re-render on change
+            chartToggle.addEventListener('change', function(e) {
+                renderChart(e.target.value);
             });
         });
     </script>

@@ -21,7 +21,7 @@ class PelangganController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
+            'nama' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
             'alamat' => 'nullable|string',
             'no_telp' => 'nullable|string|max:20',
         ]);
@@ -39,7 +39,7 @@ class PelangganController extends Controller
     public function update(Request $request, Pelanggan $pelanggan)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
+            'nama' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
             'alamat' => 'nullable|string',
             'no_telp' => 'nullable|string|max:20',
         ]);

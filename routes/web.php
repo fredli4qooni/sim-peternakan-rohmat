@@ -13,21 +13,31 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
+Route::get('/dashboard', function (\Illuminate\Http\Request $request) {
+    $bulan = $request->input('bulan', date('m'));
+    $tahun = $request->input('tahun', date('Y'));
+
     $stok = \App\Models\Stok::first();
     $stok_ayam = \App\Models\StokAyam::first();
-    $penjualan_bulan_ini = \App\Models\Penjualan::whereMonth('tanggal', date('m'))->whereYear('tanggal', date('Y'))->sum('total_harga');
-    $pengeluaran_bulan_ini = \App\Models\Pengeluaran::whereMonth('tanggal', date('m'))->whereYear('tanggal', date('Y'))->sum('nominal');
+    $penjualan_bulan_ini = \App\Models\Penjualan::whereMonth('tanggal', $bulan)->whereYear('tanggal', $tahun)->sum('total_harga');
+    $pengeluaran_bulan_ini = \App\Models\Pengeluaran::whereMonth('tanggal', $bulan)->whereYear('tanggal', $tahun)->sum('nominal');
 
     // Data dummy sederhana untuk grafik
     $grafik_penjualan = \App\Models\Penjualan::selectRaw('DAY(tanggal) as tanggal, SUM(total_harga) as total')
-        ->whereMonth('tanggal', date('m'))
-        ->whereYear('tanggal', date('Y'))
+        ->whereMonth('tanggal', $bulan)
+        ->whereYear('tanggal', $tahun)
         ->groupByRaw('DAY(tanggal)')
         ->orderByRaw('DAY(tanggal) ASC')
         ->get();
 
-    return view('dashboard', compact('stok', 'stok_ayam', 'penjualan_bulan_ini', 'pengeluaran_bulan_ini', 'grafik_penjualan'));
+    $grafik_pengeluaran = \App\Models\Pengeluaran::selectRaw('DAY(tanggal) as tanggal, SUM(nominal) as total')
+        ->whereMonth('tanggal', $bulan)
+        ->whereYear('tanggal', $tahun)
+        ->groupByRaw('DAY(tanggal)')
+        ->orderByRaw('DAY(tanggal) ASC')
+        ->get();
+
+    return view('dashboard', compact('stok', 'stok_ayam', 'penjualan_bulan_ini', 'pengeluaran_bulan_ini', 'grafik_penjualan', 'grafik_pengeluaran', 'bulan', 'tahun'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
