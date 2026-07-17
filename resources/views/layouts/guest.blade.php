@@ -16,7 +16,7 @@
         <div class="min-h-screen flex flex-col sm:flex-row">
             
             <div class="hidden sm:flex sm:w-1/2 relative bg-gray-900 justify-center items-center overflow-hidden">
-                <img src="{{ asset('images/login-cover2.jpeg') }}" 
+                <img src="{{ asset('images/login-cover-3.jpeg') }}" 
                      alt="Login Cover Peternakan" 
                      class="absolute inset-0 w-full h-full object-cover object-center">
             </div>
