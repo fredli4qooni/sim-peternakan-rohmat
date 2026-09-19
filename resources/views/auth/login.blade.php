@@ -65,7 +65,7 @@
         </div>
         
         <div class="mt-6 text-center text-sm text-gray-500">
-            &copy; {{ date('Y') }} Produksi dan Penjualan Rohmat Ayam. All rights reserved.
+            &copy; {{ date('Y') }} Produksi dan Penjualan - Peternakan Ayam Rohmat. All rights reserved.
         </div>
     </form>
 

@@ -14,9 +14,14 @@
                 alt="Logo Ayam"
                 class="w-12 h-12 drop-shadow-md flex-shrink-0 object-contain">
 
-            <span class="ml-3 text-[14px] font-extrabold text-white leading-tight tracking-wide drop-shadow-md">
-                Produksi dan Penjualan <br /> Rohmat Ayam
-            </span>
+            <div class="ml-3">
+                <span class="text-[13px] font-black text-white leading-tight tracking-wide drop-shadow-md block">
+                    Produksi dan Penjualan
+                </span>
+                <span class="text-[11px] font-semibold text-amber-200 tracking-wider block mt-0.5 whitespace-nowrap">
+                    -- Peternakan Ayam Rohmat --
+                </span>
+            </div>
         </div>
     </div>
 
