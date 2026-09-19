@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Produksi & Penjualan Telur') }}</title>
+    <title>{{ config('app.name', 'Produksi dan Penjualan Rohmat Ayam') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800,900&display=swap" rel="stylesheet" />
@@ -79,7 +79,7 @@
                 {{ $slot }}
             </div>
             <footer class="py-6 text-center text-sm text-gray-500 print:hidden w-full">
-                &copy; {{ date('Y') }} <strong>Peternakan Rohmat</strong>. Hak Cipta Dilindungi.
+                &copy; {{ date('Y') }} <strong>Produksi dan Penjualan Rohmat Ayam</strong>. Hak Cipta Dilindungi.
             </footer>
         </main>
 

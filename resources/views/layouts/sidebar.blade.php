@@ -14,8 +14,8 @@
                 alt="Logo Ayam"
                 class="w-12 h-12 drop-shadow-md flex-shrink-0 object-contain">
 
-            <span class="ml-3 text-[15px] font-extrabold text-white leading-tight tracking-wide drop-shadow-md">
-                Produksi & <br /> Penjualan Telur
+            <span class="ml-3 text-[14px] font-extrabold text-white leading-tight tracking-wide drop-shadow-md">
+                Produksi dan Penjualan <br /> Rohmat Ayam
             </span>
         </div>
     </div>
