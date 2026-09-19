@@ -6,6 +6,7 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\ProduksiController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PengeluaranController;
+use App\Http\Controllers\KategoriPengeluaranController;
 use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,7 @@ Route::middleware(['auth', 'role:pemilik'])->group(function () {
     
     // Operasional Pemilik
     Route::resource('pengeluarans', PengeluaranController::class);
+    Route::resource('kategori-pengeluarans', KategoriPengeluaranController::class)->only(['index', 'store', 'destroy']);
 });
 
 // AKSES BERSAMA (PEMILIK & KARYAWAN)

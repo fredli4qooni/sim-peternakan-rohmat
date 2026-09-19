@@ -31,5 +31,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\Stok::create([
             'total_stok' => 0,
         ]);
+
+        $defaultKategori = ['Pakan', 'Listrik', 'Obat', 'Vaksin', 'Gaji Karyawan'];
+        foreach ($defaultKategori as $kat) {
+            \App\Models\KategoriPengeluaran::firstOrCreate(['nama' => $kat]);
+        }
     }
 }

@@ -65,7 +65,7 @@
         </div>
         
         <div class="mt-6 text-center text-sm text-gray-500">
-            &copy; {{ date('Y') }} SIM Telur. All rights reserved.
+            &copy; {{ date('Y') }} Peternakan Rohmat. All rights reserved.
         </div>
     </form>
 

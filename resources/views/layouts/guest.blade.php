@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'SIM Telur') }} - Login</title>
+        <title>{{ config('app.name', 'Produksi & Penjualan Telur') }} - Login</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800,900&display=swap" rel="stylesheet" />
@@ -18,7 +18,7 @@
             <div class="hidden sm:flex sm:w-1/2 relative bg-gray-900 justify-center items-center overflow-hidden">
                 <img src="{{ asset('images/login-cover-3.jpeg') }}" 
                      alt="Login Cover Peternakan" 
-                     class="absolute inset-0 w-full h-full object-cover object-center">
+                     class="absolute inset-0 w-full h-full object-cover object-left-top">
             </div>
 
             <div class="w-full sm:w-1/2 flex justify-center items-center bg-gray-50 p-6">
