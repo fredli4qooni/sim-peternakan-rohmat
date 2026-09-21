@@ -80,12 +80,6 @@
                     <div>
                         <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-2">Pilih Tanggal Pengeluaran:</span>
                         <form action="{{ route('pengeluarans.index') }}" method="GET" class="flex flex-wrap items-center gap-2">
-                            <a href="{{ route('pengeluarans.index', ['tanggal' => $tanggalKemarin]) }}" 
-                               class="inline-flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-bold transition shadow-xs" 
-                               title="Lihat hari kemarin ({{ \Carbon\Carbon::parse($tanggalKemarin)->format('d M') }})">
-                                ◀ Kemarin
-                            </a>
-
                             <div class="relative">
                                 <input type="date" 
                                        name="tanggal" 
@@ -95,15 +89,9 @@
                                        class="border border-gray-300 rounded-lg text-sm font-bold text-gray-800 shadow-sm focus:border-amber-500 focus:ring-amber-500 py-1.5 px-3 cursor-pointer">
                             </div>
 
-                            <a href="{{ route('pengeluarans.index', ['tanggal' => $tanggalBesok]) }}" 
-                               class="inline-flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-bold transition shadow-xs"
-                               title="Lihat hari besok ({{ \Carbon\Carbon::parse($tanggalBesok)->format('d M') }})">
-                                Besok ▶
-                            </a>
-
                             @if($tanggal !== $tanggalHariIni)
                             <a href="{{ route('pengeluarans.index', ['tanggal' => $tanggalHariIni]) }}" 
-                               class="inline-flex items-center px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-300 rounded-lg text-xs font-bold transition shadow-xs">
+                               class="inline-flex items-center px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-300 rounded-lg text-xs font-bold transition shadow-xs">
                                 Hari Ini
                             </a>
                             @endif
