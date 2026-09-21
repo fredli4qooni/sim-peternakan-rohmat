@@ -152,7 +152,7 @@
                         </div>
 
                         <div class="flex items-center justify-end">
-                            <a href="{{ route('pengeluarans.index') }}" class="inline-block align-baseline font-bold text-sm text-gray-500 hover:text-gray-800 mr-4">
+                            <a href="{{ route('pengeluarans.index', ['tanggal' => $pengeluaran->tanggal]) }}" class="inline-block align-baseline font-bold text-sm text-gray-500 hover:text-gray-800 mr-4">
                                 Batal
                             </a>
                             <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow">

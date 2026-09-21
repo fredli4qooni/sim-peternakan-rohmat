@@ -5,10 +5,16 @@
         </h2>
     </x-slot>
 
+    @php
+        $initDate = old('tanggal', $defaultTanggal ?? date('Y-m-d'));
+        $initSelect = old('nama_pengeluaran_select', $defaultKategori ?? '');
+        $initNominal = old('nominal', $initSelect === 'Gaji Karyawan' ? 2100 : '');
+    @endphp
+
     <div class="py-12" x-data="{
-        selectedOpsi: '{{ old('nama_pengeluaran_select', '') }}',
+        selectedOpsi: '{{ $initSelect }}',
         manualInput: '{{ old('nama_pengeluaran_manual', '') }}',
-        nominalInput: '{{ old('nominal', old('nama_pengeluaran_select') === 'Gaji Karyawan' ? 2100 : '') }}',
+        nominalInput: '{{ $initNominal }}',
         modalOpen: false,
         newOpsiNama: '',
         loadingOpsi: false,
@@ -91,7 +97,7 @@
                         @csrf
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="tanggal">Tanggal Pengeluaran <span class="text-red-500">*</span></label>
-                            <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal', date('Y-m-d')) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-amber-500 focus:ring-amber-500" required>
+                            <input type="date" name="tanggal" id="tanggal" value="{{ $initDate }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-amber-500 focus:ring-amber-500" required>
                             @error('tanggal') <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p> @enderror
                         </div>
 
@@ -143,7 +149,7 @@
                         </div>
 
                         <div class="flex items-center justify-end">
-                            <a href="{{ route('pengeluarans.index') }}" class="inline-block align-baseline font-bold text-sm text-gray-500 hover:text-gray-800 mr-4">
+                            <a href="{{ route('pengeluarans.index', ['tanggal' => $initDate]) }}" class="inline-block align-baseline font-bold text-sm text-gray-500 hover:text-gray-800 mr-4">
                                 Batal
                             </a>
                             <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow">
